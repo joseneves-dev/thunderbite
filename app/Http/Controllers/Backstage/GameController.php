@@ -35,6 +35,11 @@ class GameController extends Controller
             "Content-Disposition" => "attachment; filename=export_games.csv",
         ];
 
+        // Remove games where prize_id is null
+        $games = $games->filter(function ($game) {
+            return !is_null($game->prize_id); // Only keep games with a prize_id
+        });
+        
         $callback = function () use ($games) {
             $file = fopen('php://output', 'w');
             
