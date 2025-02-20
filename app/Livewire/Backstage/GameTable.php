@@ -4,6 +4,8 @@ namespace App\Livewire\Backstage;
 
 use App\Models\Game;
 
+use Carbon\Carbon;
+
 class GameTable extends TableComponent
 {
     public $sortField = 'revealed_at';
@@ -22,8 +24,11 @@ class GameTable extends TableComponent
 
     public function export()
     {
+        $campaignId = session('activeCampaign');
+
         $this->dispatch('exportData', [
             'account' => $this->account,
+            'campaignId' => $campaignId,
             'prizeId' => $this->prizeId,
             'startDate' => $this->startDate,
             'endDate' => $this->endDate,
@@ -51,6 +56,9 @@ class GameTable extends TableComponent
             ],
         ];
 
+        $this->startDate = Carbon::parse($this->startDate)->format('Y-m-d H:i:s');
+        $this->endDate = Carbon::parse($this->endDate)->format('Y-m-d H:i:s');
+
         $query = Game::query()
         ->join('prizes', 'prizes.id', '=', 'games.prize_id')
         ->where('prizes.campaign_id', session('activeCampaign'))
@@ -67,14 +75,11 @@ class GameTable extends TableComponent
             $query->where('games.prize_id', $this->prizeId);
         }
     
-        if (!empty($this->startDate)) {
-            $query->whereDate('games.revealed_at', '>=', $this->startDate);
-        }
-    
-        if (!empty($this->endDate)) {
-            $query->whereDate('games.revealed_at', '<=', $this->endDate);
-        }
-    
+        if (!empty($this->startDate) && !empty($this->endDate)) {
+            $query->whereBetween('games.revealed_at', [$this->startDate, $this->endDate]);
+        } 
+
+        
         $rows = $query->orderBy($this->sortField, $this->sortDesc ? 'DESC' : 'ASC')
                       ->paginate($this->perPage);
 
