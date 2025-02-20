@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+use Carbon\Carbon;
+
 use App\Models\Game;
 
 class GameController extends Controller
@@ -25,10 +27,11 @@ class GameController extends Controller
     {
         $account = $request->input('account');
         $prizeId = $request->input('prize_id');
-        $fromDate = $request->input('from_date');
-        $endDate = $request->input('end_date');
+        $campaignId = $request->input('campaign_id');
+        $fromDate = Carbon::parse($request->input('start_date'))->format('Y-m-d H:i:s');
+        $endDate = Carbon::parse($request->input('end_date'))->format('Y-m-d H:i:s');
 
-        $games = Game::filter($account, $prizeId, $fromDate, $endDate)->get();
+        $games = Game::filter($account, $campaignId, $prizeId, $fromDate, $endDate)->get();
 
         $headers = [
             "Content-Type" => "text/csv",
