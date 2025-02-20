@@ -20,7 +20,7 @@ class Game extends Model
         ];
     }
 
-    public static function filter(?string $account = null, ?int $prizeId = null, ?string $fromDate = null, ?string $tillDate = null)
+    public static function filter(?string $account = null, ?int $campaignId = null, ?int $prizeId = null, ?string $fromDate = null, ?string $tillDate = null)
     {
         $query = self::query();
 
@@ -28,16 +28,18 @@ class Game extends Model
             $query->where('account', 'LIKE', "%$account%");
         }
 
+        if (!empty($campaignId)) {
+            $query->where('campaign_id', 'LIKE', "%$campaignId%");
+        }
+
         if (!empty($prizeId)) {
             $query->where('prize_id', $prizeId);
         }
 
-        if (!empty($fromDate)) {
-            $query->whereDate('revealed_at', '>=', $fromDate);
-        }
-        if (!empty($tillDate)) {
-            $query->whereDate('revealed_at', '<=', $tillDate);
-        }
+        if (!empty($fromDate) && !empty($tillDate)) {
+            $query->whereBetween('games.revealed_at', [$fromDate, $tillDate]);
+        } 
+
 
         return $query;
     }
