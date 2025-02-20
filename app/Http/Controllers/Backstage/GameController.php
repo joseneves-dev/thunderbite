@@ -32,19 +32,19 @@ class GameController extends Controller
 
         $headers = [
             "Content-Type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=filtered_games.csv",
+            "Content-Disposition" => "attachment; filename=export_games.csv",
         ];
 
         $callback = function () use ($games) {
             $file = fopen('php://output', 'w');
             
-            fputcsv($file, ['ID', 'Account', 'Prize ID', 'Revealed At']);
+            fputcsv($file, ['ID', 'Account', 'Prize Name', 'Revealed At']);
 
             foreach ($games as $game) {
                 fputcsv($file, [
                     $game->id,
                     $game->account,
-                    $game->prize_id,
+                    $game->prize->name,
                     $game->revealed_at,
                 ]);
             }
