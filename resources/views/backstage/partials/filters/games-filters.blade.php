@@ -26,7 +26,7 @@
         flatpickr("#wire-starts", {
             allowInput: true,
             enableSeconds: true,
-            dateFormat: 'd-m-Y H:i:S',
+            dateFormat: 'Y-m-d H:i:S',
             defaultHour: 0,
             defaultMinute: 0,
             defaultSeconds: 0,
@@ -37,7 +37,7 @@
         flatpickr("#wire-ends", {
             allowInput: true,
             enableSeconds: true,
-            dateFormat: 'd-m-Y H:i:S',
+            dateFormat: 'Y-m-d H:i:S',
             defaultHour: 23,
             defaultMinute: 59,
             defaultSeconds: 59,
