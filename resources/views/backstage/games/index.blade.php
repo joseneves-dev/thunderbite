@@ -12,6 +12,7 @@
                 </div>
             </div>
             <input type="hidden" name="account" id="export_account">
+            <input type="hidden" name="campaign_id" id="export_campaignId">
             <input type="hidden" name="prize_id" id="export_prizeId">
             <input type="hidden" name="start_date" id="export_startDate">
             <input type="hidden" name="end_date" id="export_endDate">
@@ -32,8 +33,9 @@
  document.getElementById('export-button').addEventListener('click', function() {
         Livewire.dispatch('exportGamesTable')
         Livewire.on('exportData', function (filters) {
-
+            
             document.getElementById('export_account').value = filters[0].account != null ? filters[0].account : '';
+            document.getElementById('export_campaignId').value = filters[0].campaignId != null ? filters[0].campaignId : '';
             document.getElementById('export_prizeId').value = filters[0].prizeId != null ? filters[0].prizeId : '';
             document.getElementById('export_startDate').value = filters[0].startDate != null ? filters[0].startDate : '';
             document.getElementById('export_endDate').value = filters[0].endDate != null ? filters[0].endDate : '';
