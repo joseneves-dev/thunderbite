@@ -22,17 +22,12 @@ class FrontendController extends Controller
     public function loadCampaign(LoadCampaignRequest $request, Campaign $campaign): View
     {   
 
-        if (!Carbon::parse($campaign->starts_at)->isPast()) {
-
-            $config = JsonHelper::createConfig("Campaign didn't start");
-
-            return view('frontend.index', ['config' => $config]);
+        if (Carbon::parse($campaign->starts_at)->isFuture()) {
+            return view('frontend.index', ['config' => JsonHelper::createConfig("Campaign didn't start")]);
         }
-    
+        
         if (Carbon::parse($campaign->ends_at)->isPast()) {
-            $config = JsonHelper::createConfig("Campaign has ended");
-
-            return view('frontend.index', ['config' => $config]);
+            return view('frontend.index', ['config' => JsonHelper::createConfig("Campaign has ended")]);
         }
 
         
