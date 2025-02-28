@@ -32,5 +32,5 @@ Route::prefix('backstage')->name('backstage.')->middleware(['auth', 'setActiveCa
 //     Route::put('activate/{ott}', 'Auth\ActivateAccountController@update')->name('backstage.activate.update');
 // });
 
-Route::get('{campaign:slug}', [FrontendController::class, 'loadCampaign']);
+Route::get('{campaign:slug}', [FrontendController::class, 'loadCampaign'])->middleware('validateSegment');
 Route::get('/', [FrontendController::class, 'placeholder']);
