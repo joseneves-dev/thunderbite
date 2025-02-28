@@ -28,7 +28,7 @@ class ApiController extends Controller
         $revealedTilesCount = RevealedTile::where('game_id', $game->id)->count();
 
         // If no prizes are available, return
-        if ($revealedTilesCount->count() >= 10 ) { 
+        if ($revealedTilesCount >= 10 ) { 
             return response()->json([
                 'message' => 'You lost, max moves 10',
             ]);
