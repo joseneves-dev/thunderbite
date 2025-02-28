@@ -27,8 +27,16 @@ class ApiController extends Controller
         $tileIndex = $request->input('tileIndex');
 
         $game = Game::with('campaign')->findOrFail($gameId);
+    
+        $revealedTilesCount = RevealedTile::where('game_id', $game->id)->count();
 
-        
+        // If no prizes are available, return
+        if ($revealedTilesCount->count() >= 10 ) { 
+            return response()->json([
+                'message' => 'You lost, max moves 10',
+            ]);
+        }
+
         // Check if the tile has already been picked
         $tileAlreadyPicked = RevealedTile::where('game_id', $game->id)
             ->where('tile_index', $tileIndex)
@@ -40,14 +48,11 @@ class ApiController extends Controller
             ]);
         }
 
-        $revealedTilesCount = RevealedTile::where('game_id', $game->id)->count();
-
         // Get available prizes 
         $availablePrizes = $this->getAvailablePrizes($game);
         
         // Select a prize based on the number of revealed tiles
         if ($revealedTilesCount < 3) {
-            
             // For the first two tiles, create the illusion of equal chance
             $prize = $availablePrizes->random();
         } else {
