@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Carbon\Carbon;
 
-use App\Http\Requests\FlipTileRequest;
+use App\Http\Requests\Api\FlipTileRequest;
 
 use App\Traits\checkGame;
 

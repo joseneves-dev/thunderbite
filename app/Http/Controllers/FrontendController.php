@@ -6,7 +6,7 @@ use Illuminate\View\View;
 
 use Carbon\Carbon;
 
-use App\Http\Requests\LoadCampaignRequest;
+use App\Http\Requests\frontend\LoadCampaignRequest;
 
 use App\Traits\checkGame;
 
