@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\View\View;
-use Illuminate\Http\Request;
 
 use Carbon\Carbon;
+
+use App\Http\Requests\LoadCampaignRequest;
 
 use App\Traits\checkGame;
 
@@ -18,7 +19,7 @@ class FrontendController extends Controller
 {
     use checkGame;
 
-    public function loadCampaign(Request $request, Campaign $campaign): View
+    public function loadCampaign(LoadCampaignRequest $request, Campaign $campaign): View
     {   
 
         if (!Carbon::parse($campaign->starts_at)->isPast()) {
