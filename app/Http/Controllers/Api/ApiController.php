@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+
+use App\Http\Requests\FlipTileRequest;
 
 use App\Traits\checkGame;
 
@@ -16,13 +17,9 @@ class ApiController extends Controller
 {
     use checkGame;
 
-    public function flip(Request $request)
+    public function flip(FlipTileRequest $request)
    {
-        $request->validate([
-            'gameId' => 'required|integer',
-            'tileIndex' => 'required|integer',
-        ]);
-
+       
         $gameId = $request->input('gameId');
         $tileIndex = $request->input('tileIndex');
 
