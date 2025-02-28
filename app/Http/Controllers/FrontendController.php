@@ -36,10 +36,9 @@ class FrontendController extends Controller
         $game = Game::firstOrCreate([
             'account' => $account,
             'campaign_id' => $campaign->id,
+            'segment' => $segment,
             'prize_id' => null,
             'revealed_at' => null,
-        ],[
-            'segment' => $segment,
         ]);
 
           // Get available prizes using the trait
