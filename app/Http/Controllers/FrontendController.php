@@ -30,7 +30,6 @@ class FrontendController extends Controller
             return view('frontend.index', ['config' => JsonHelper::createConfig("Campaign has ended")]);
         }
 
-        
         $account = $request->query('a'); 
         $segment = $request->query('segment'); 
 
@@ -48,8 +47,7 @@ class FrontendController extends Controller
 
           // If no prizes are available, return a message
           if (!$availablePrizes) {
-            $config = JsonHelper::createConfig("No more prizes available for today!");
-            return view('frontend.index', ['config' => $config]);  
+            return view('frontend.index', ['config' => JsonHelper::createConfig("No more prizes available for today!")]);  
           }
 
           
