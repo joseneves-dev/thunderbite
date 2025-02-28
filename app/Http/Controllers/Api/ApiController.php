@@ -28,6 +28,7 @@ class ApiController extends Controller
 
         $game = Game::with('campaign')->findOrFail($gameId);
 
+        
         // Check if the tile has already been picked
         $tileAlreadyPicked = RevealedTile::where('game_id', $game->id)
             ->where('tile_index', $tileIndex)
@@ -39,20 +40,14 @@ class ApiController extends Controller
             ]);
         }
 
-        // Get available prizes 
-        $availablePrizes = $this->getAvailablePrizes($game);
-
-        // If no prizes are available, return
-        if ($availablePrizes->isEmpty()) { 
-            return response()->json([
-                'message' => 'No more prizes available for today!',
-            ]);
-        }
-
         $revealedTilesCount = RevealedTile::where('game_id', $game->id)->count();
 
+        // Get available prizes 
+        $availablePrizes = $this->getAvailablePrizes($game);
+        
         // Select a prize based on the number of revealed tiles
         if ($revealedTilesCount < 3) {
+            
             // For the first two tiles, create the illusion of equal chance
             $prize = $availablePrizes->random();
         } else {
